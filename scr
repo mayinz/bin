@@ -1,0 +1,3 @@
+#!/bin/sh
+(import png:- | xclip -t 'image/png' -selection 'clipboard' -i)
+

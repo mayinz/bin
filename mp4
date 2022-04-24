@@ -1,0 +1,5 @@
+#!/bin/sh
+
+youtube-dl \
+  -f 'best[ext=mp4]' \
+  "$@"
