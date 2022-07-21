@@ -1,4 +1,10 @@
 #!/bin/sh
+# shellcheck disable=SC2035
+#
+# Simple script to download music, convert to flac and merge
+# the thumbnail
+#
+
 youtube-dl \
     -x \
     --write-thumbnail  \
@@ -15,6 +21,6 @@ mogrify \
     -shave 7x7 \
     -resize 500x500^ \
     -format jpg \
-    "./*.jpg" || "./*.webp" 
+    "*.jpg" "*.webp" 2>/dev/null 
 
-for file in ./*.mp3; do ffmpeg -hide_banner -loglevel error -i "$file" -i ./*.jpg -map 0:a -map 1 -c:a flac -id3v2_version 3 -disposition:1 attached_pic -metadata:s:v title="Album cover" -metadata:s:v comment="Cover (front)" "${file%.mp3}.flac"; done && rm *.mp3 *.jpg *.webp
+for file in ./*.mp3; do ffmpeg -hide_banner -loglevel error -i "$file" -i *.jpg -map 0:a -map 1 -c:a flac -id3v2_version 3 -disposition:1 attached_pic -metadata:s:v title="Album cover" -metadata:s:v comment="Cover (front)" "${file%.mp3}.flac"; done && rm *.mp3 *.jpg *.webp 2>/dev/null
